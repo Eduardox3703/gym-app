@@ -33,13 +33,17 @@ jobs:
           pip install buildozer==1.5.0
           pip install cython==0.29.37
 
-      - name: Cache Buildozer
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 33
+          build-tools-version: 33.0.2
+
+      - name: Cache Buildozer (Python only)
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.buildozer
-            ~/.android
-          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+          path: ~/.buildozer/bin
+          key: buildozer-bin-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
 
       - name: Compilar APK
         run: buildozer android debug
